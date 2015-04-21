@@ -20,10 +20,7 @@ std::vector<int> FindDigits(std::string content) {
 
 std::vector<int> FindWrittenNumbers(std::string content) {
   std::vector<int> list;
-  for (auto pos = content.find_first_of("otfsenOTFSEN");
-       pos != std::string::npos;
-       pos = content.find_first_of("otfsenOTFSEN")) {
-    content = content.substr(pos);
+  while (!content.empty()) {
     int number;
     size_t length;
     GetWrittenNumber(content, &number, &length);
