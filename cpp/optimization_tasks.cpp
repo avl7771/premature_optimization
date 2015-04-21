@@ -3,6 +3,8 @@
 #include <vector>
 #include <fstream>
 
+#include "written_numbers.hpp"
+
 std::vector<int> FindDigits(std::string content) {
   std::vector<int> list;
   for (auto pos = content.find_first_of("0123456789"); pos != std::string::npos;
@@ -16,25 +18,22 @@ std::vector<int> FindDigits(std::string content) {
   return list;
 }
 
-unsigned FindWrittenNumberOccurrences(
-    std::string content, const std::string& to_search) {
-  unsigned count = 0;
-
-  for (auto pos = content.find(to_search); pos != std::string::npos;
-       pos = content.find(to_search)) {
-    ++count;
-    content = content.substr(pos + to_search.length());
-  }
-
-  return count;
-}
-
-std::vector<int> AccumulateNumbers(
-    const std::string& content, const std::string& written, int number) {
+std::vector<int> FindWrittenNumbers(std::string content) {
   std::vector<int> list;
-  unsigned count = FindWrittenNumberOccurrences(content, written);
-  for (unsigned i = 0; i < count; ++i)
-    list.push_back(number);
+  for (auto pos = content.find_first_of("otfsenOTFSEN");
+       pos != std::string::npos;
+       pos = content.find_first_of("otfsenOTFSEN")) {
+    content = content.substr(pos);
+    int number;
+    size_t length;
+    GetWrittenNumber(content, &number, &length);
+    if (number > 0) {
+      list.push_back(number);
+      content = content.substr(length);
+    } else {
+      content = content.substr(1);
+    }
+  }
 
   return list;
 }
@@ -43,53 +42,7 @@ std::vector<int> FindAllNumbers(const std::string& content) {
   std::vector<int> list;
   std::vector<int> result;
 
-  list = AccumulateNumbers(content, "one", 1);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "One", 1);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "two", 2);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Two", 2);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "three", 3);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Three", 3);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "four", 4);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Four", 4);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "five", 5);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Five", 5);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "six", 6);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Six", 6);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "seven", 7);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Seven", 7);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "eight", 8);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Eight", 8);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "nine", 9);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Nine", 9);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "ten", 10);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Ten", 10);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "eleven", 11);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Eleven", 11);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "twelve", 12);
-  std::copy(list.begin(), list.end(), std::back_inserter(result));
-  list = AccumulateNumbers(content, "Twelve", 12);
+  list = FindWrittenNumbers(content);
   std::copy(list.begin(), list.end(), std::back_inserter(result));
   list = FindDigits(content);
   std::copy(list.begin(), list.end(), std::back_inserter(result));
