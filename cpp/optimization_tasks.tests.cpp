@@ -158,13 +158,13 @@ TEST_CASE("Mixed digits and written numbers", "[mixed_numbers])") {
 }
 
 TEST_CASE("Sample file", "[sample_file]") {
-  std::string content(ReadFile("../mhj3.txt"));
+  std::string content(ReadFile("book.txt"));
   REQUIRE(CalculateSecretNumber(content) == -571);
 }
 
 TEST_CASE("Sample file speed", "[sample_file_speed]") {
   MeasureUtilization measure;
-  std::string content(ReadFile("../mhj3.txt"));
+  std::string content(ReadFile("book.txt"));
   REQUIRE(CalculateSecretNumber(content) == -571);
 
   WARN("Utilization: " << measure.GetUtilization());

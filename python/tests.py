@@ -96,7 +96,7 @@ def test_mixed_string():
     assert mystery.CalculateSecretNumber(content) == -299
 
 def calculate_from_sample_file():
-    return mystery.CalculateSecretNumberFromFile('../mhj3.txt')
+    return mystery.CalculateSecretNumberFromFile('book.txt')
 
 def test_sample_file():
     assert calculate_from_sample_file() == -571
