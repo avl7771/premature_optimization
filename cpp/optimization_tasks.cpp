@@ -1,7 +1,8 @@
 #include "optimization_tasks.hpp"
 
-#include <vector>
+#include <algorithm>
 #include <fstream>
+#include <vector>
 
 #include "written_numbers.hpp"
 
