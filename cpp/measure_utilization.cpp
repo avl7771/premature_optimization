@@ -5,7 +5,7 @@
 
 MeasureUtilization::MeasureUtilization()
     : user_time_start_(0),
-        system_time_start_(0) {
+      system_time_start_(0) {
     struct rusage usage;
     if (getrusage(RUSAGE_SELF, &usage) != 0)
         return;
